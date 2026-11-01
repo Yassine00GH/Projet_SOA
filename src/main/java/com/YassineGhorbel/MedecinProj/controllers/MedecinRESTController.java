@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class MedecinRESTController {
 
@@ -19,7 +19,7 @@ public class MedecinRESTController {
 
     //@RequestMapping(method = RequestMethod.GET)
     @GetMapping()
-    List<Medecin> getAllMedecin(){
+    public List<Medecin> getAllMedecin(){
         return medecinService.getAllMedecin();
     }
     //@RequestMapping(value ="/{id}",method = RequestMethod.GET)
@@ -34,9 +34,15 @@ public class MedecinRESTController {
         return  medecinService.saveMedecin(medecin);
     }
 
-    //@RequestMapping(method = RequestMethod.PUT)
     @PutMapping()
     public Medecin updateMedecin(@RequestBody Medecin medecin){
+        return medecinService.updateMedecin(medecin);
+    }
+
+    //@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping("/{id}")
+    public Medecin updateMedecin(@PathVariable Long id, @RequestBody Medecin medecin){
+        medecin.setId(id);
         return medecinService.updateMedecin(medecin);
     }
 
@@ -47,6 +53,12 @@ public class MedecinRESTController {
     }
 
     //@RequestMapping(value ="/api/{id}",method = RequestMethod.GET)
+    // Recherche des medecins dont le nom contient un texte donne
+    @GetMapping("/medsByName/{nom}")
+    public List<Medecin> findByNomContains(@PathVariable("nom") String nom) {
+        return medecinService.findByNomContains(nom);
+    }
+
     @GetMapping("/MedecinSpec/{id}")
     public List<Medecin> getMedecinSpecById(@PathVariable("id") Long id)
     {

@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.util.Date;
@@ -24,7 +23,6 @@ public class Medecin {
 
     public Medecin() {
     }
-
     public Medecin(Long id, String nom, String prenom, String email, String telephone,
                    Date dateDiplome, Specialite specialite) {
         this.id = id;

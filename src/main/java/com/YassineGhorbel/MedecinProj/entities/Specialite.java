@@ -23,4 +23,3 @@ public class Specialite {
     @JsonIgnore
     private List<Medecin> medecins;
 }
-
