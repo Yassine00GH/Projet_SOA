@@ -1,0 +1,49 @@
+<div class="container mt-3">
+  <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+    <label>Spécialités</label>
+    <select class="form-control form-control-lg" id="idSpec" name="idSpec"
+            [(ngModel)]="IdSpecialite" (change)="onChange()">
+      @for (spec of specialites; track spec.id) {
+        <option value="{{spec.id}}">{{spec.nom}}</option>
+      }
+    </select>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th><th>Nom</th><th>Prénom</th><th>Email</th>
+            <th>Téléphone</th><th>Date Diplôme</th><th>Spécialité</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (medecin of medecins; track medecin.id) {
+            <tr>
+              <td>{{medecin.id}}</td>
+              <td>{{medecin.nom}}</td>
+              <td>{{medecin.prenom}}</td>
+              <td>{{medecin.email}}</td>
+              <td>{{medecin.telephone}}</td>
+              <td>{{medecin.dateDiplome | date:'dd/MM/yyyy'}}</td>
+              @if (medecin.specialite) {
+                <td>{{medecin.specialite.nom}}</td>
+              } @else {
+                <td>PAS DE SPECIALITE</td>
+              }
+              <!--
+              <td><a class="btn btn-danger" (click)="supprimerMedecin(medecin)">Supprimer</a></td>
+              <td><a class="btn btn-success" [routerLink]="['/updateMedecin', medecin.id]">Modifier</a></td>
+              -->
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="7">Aucun médecin pour cette spécialité</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

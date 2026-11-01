@@ -1,0 +1,21 @@
+<form>
+  <div [hidden]="ajout">
+    <label>ID Spécialité</label>
+    <input type="text" [(ngModel)]="specialite.id" name="idSpecialite" class="form-control w-25" [readonly]="!ajout">
+  </div>
+  <div>
+    <label>Nom Spécialité</label>
+    <input type="text" [(ngModel)]="specialite.nom" name="nomSpecialite" class="form-control"
+           placeholder="Entrez un nom de spécialité...">
+  </div>
+  <div class="mt-2">
+    <label>Description</label>
+    <input type="text" [(ngModel)]="specialite.description" name="descriptionSpecialite" class="form-control"
+           placeholder="Entrez une description...">
+  </div>
+  <div class="mt-2">
+    <button type="submit" [disabled]="!specialite.nom" class="btn btn-success"
+            (click)="saveSpecialite()">{{ajout ? 'Ajouter' : 'Modifier'}}
+    </button>
+  </div>
+</form>

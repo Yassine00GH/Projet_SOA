@@ -1,0 +1,67 @@
+<div class="container mt-3">
+
+  <!-- 1) Recherche par nom en utilisant l'API -->
+  <form class="row g-2 align-items-end mb-2">
+    <div class="col-auto">
+      <label>Nom Médecin (API)</label>
+      <input type="text" class="form-control" [(ngModel)]="nomMedecin" name="nomMedecin">
+    </div>
+    <div class="col-auto">
+      <button type="submit" (click)="rechercherMeds()" class="btn btn-primary">Rechercher</button>
+    </div>
+  </form>
+
+  <!-- 2) Recherche par nom en utilisant l'event keyup -->
+  <form class="row g-2 mb-2">
+    <div class="col-auto">
+      <label>Nom Médecin en tapant (keyup)</label>
+      <input class="form-control" #searchKey (keyup)="onKeyUp(searchKey.value)">
+    </div>
+  </form>
+
+  <!-- 3) Recherche par nom en utilisant un pipe -->
+  <form class="row g-2 mb-3">
+    <div class="col-auto">
+      <label>Nom Médecin en tapant (pipe)</label>
+      <input #nom [(ngModel)]="searchTerm" name="searchTerm" class="form-control">
+    </div>
+  </form>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th><th>Nom</th><th>Prénom</th><th>Email</th>
+            <th>Téléphone</th><th>Date Diplôme</th><th>Spécialité</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (medecin of medecins | searchFilter: searchTerm; track medecin.id) {
+            <tr>
+              <td>{{medecin.id}}</td>
+              <td>{{medecin.nom}}</td>
+              <td>{{medecin.prenom}}</td>
+              <td>{{medecin.email}}</td>
+              <td>{{medecin.telephone}}</td>
+              <td>{{medecin.dateDiplome | date:'dd/MM/yyyy'}}</td>
+              @if (medecin.specialite) {
+                <td>{{medecin.specialite.nom}}</td>
+              } @else {
+                <td>PAS DE SPECIALITE</td>
+              }
+              <!--
+              <td><a class="btn btn-danger" (click)="supprimerMedecin(medecin)">Supprimer</a></td>
+              <td><a class="btn btn-success" [routerLink]="['/updateMedecin', medecin.id]">Modifier</a></td>
+              -->
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="7">Aucun médecin trouvé</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

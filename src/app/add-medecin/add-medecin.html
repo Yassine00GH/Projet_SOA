@@ -1,0 +1,59 @@
+<div class="container">
+     <div>
+       <h2>Ajouter un Médecin :</h2>
+     </div>
+           <form (ngSubmit)="addMedecin()">
+
+              <div class="col-sm-2 col-md-2 col-lg-2">
+                <label>ID Médecin</label>
+                <input type="text" [(ngModel)]="newMedecin.id"
+                    name="id" class="form-control">
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Nom</label>
+                <input type="text" [(ngModel)]="newMedecin.nom"
+                    name="nom" class="form-control">
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Prénom</label>
+                <input type="text" [(ngModel)]="newMedecin.prenom"
+                    name="prenom" class="form-control">
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Email</label>
+                <input type="text" [(ngModel)]="newMedecin.email"
+                    name="email" class="form-control">
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Téléphone</label>
+                <input type="text" [(ngModel)]="newMedecin.telephone"
+                    name="telephone" class="form-control">
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                  <label>Date Diplôme</label>
+                  <input type="date" [ngModel]="newMedecin.dateDiplome | date:'yyyy-MM-dd'"
+                      (ngModelChange)="onDateChange($event)" name="dateDiplome" class="form-control">
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Spécialité</label>
+                 <select class="form-control form-control-lg" id="idSpec" name="idSpec" [(ngModel)]="newIdSpec">
+                   @for(spec of specialites; track spec.id){
+                     <option [value]="spec.id"> {{ spec.nom }} </option>
+                   }
+                 </select>
+              </div>
+
+        <div class="mt-2">
+    <button type="submit" class="btn btn-success">Ajouter</button>
+        </div>
+        <div>
+          <h3 class="mt-2">{{message}}</h3>
+        </div>
+          </form>
+</div>
