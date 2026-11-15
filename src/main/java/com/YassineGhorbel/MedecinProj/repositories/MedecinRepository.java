@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(path = "rest")
+@RepositoryRestResource(path = "medecins")
 public interface MedecinRepository extends JpaRepository<Medecin, Long> {
     @Override
     @EntityGraph(attributePaths = "specialite")
@@ -26,6 +26,7 @@ public interface MedecinRepository extends JpaRepository<Medecin, Long> {
     List<Medecin> findBySpecialite(Specialite specialite);
 
     List<Medecin> findBySpecialiteId(Long id);
+    boolean existsBySpecialite_Id(Long id);
 
     List<Medecin> findByOrderByNomAsc();
 

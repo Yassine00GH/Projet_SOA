@@ -27,27 +27,34 @@ public class MedecinServiceImpl implements MedecinService{
     @Override
     public Medecin saveMedecin(Medecin medecin) {
         medecin.setId(null);
+        resolveSpecialite(medecin);
         return medecinRepository.save(medecin);
     }
 
     @Override
     public Medecin updateMedecin(Medecin medecin) {
-        if (medecin.getSpecialite() != null) {
-            Long specialiteId = medecin.getSpecialite().getId();
-            if (specialiteId == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'identifiant de la spécialité est obligatoire");
-            }
-            Specialite specialite = specialiteRepository.findById(specialiteId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Spécialité introuvable"));
-            medecin.setSpecialite(specialite);
-        }
         if (medecin.getId() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "L'identifiant du médecin est obligatoire");
         }
         if (!medecinRepository.existsById(medecin.getId())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Médecin introuvable");
         }
+        resolveSpecialite(medecin);
         return medecinRepository.save(medecin);
+    }
+
+    private void resolveSpecialite(Medecin medecin) {
+        if (medecin.getSpecialite() == null) {
+            return;
+        }
+        Long specialiteId = medecin.getSpecialite().getId();
+        if (specialiteId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "L'identifiant de la spécialité est obligatoire");
+        }
+        Specialite specialite = specialiteRepository.findById(specialiteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Spécialité introuvable"));
+        medecin.setSpecialite(specialite);
     }
 
     @Override

@@ -10,4 +10,5 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RepositoryRestResource(path = "specialites")
 @CrossOrigin(origins = "http://localhost:4200")
 public interface SpecialiteRepository extends JpaRepository<Specialite, Long> {
+    boolean existsByNomIgnoreCase(String nom);
 }

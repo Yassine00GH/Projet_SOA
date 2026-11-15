@@ -1,6 +1,5 @@
 package com.YassineGhorbel.MedecinProj.controllers;
 
-
 import com.YassineGhorbel.MedecinProj.entities.Medecin;
 import com.YassineGhorbel.MedecinProj.services.MedecinService;
 import lombok.AllArgsConstructor;
@@ -14,56 +13,46 @@ import java.util.List;
 @AllArgsConstructor
 public class MedecinRESTController {
 
-    private final MedecinService medecinService ;
+    private final MedecinService medecinService;
 
-
-    //@RequestMapping(method = RequestMethod.GET)
-    @GetMapping()
-    public List<Medecin> getAllMedecin(){
+    @RequestMapping(path = {"", "/all"}, method = RequestMethod.GET)
+    public List<Medecin> getAllMedecin() {
         return medecinService.getAllMedecin();
     }
-    //@RequestMapping(value ="/{id}",method = RequestMethod.GET)
-    @GetMapping("/{id}")
-    public Medecin getMedecinById(@PathVariable Long id){
+
+    @RequestMapping(value = {"/{id}", "/getbyid/{id}"}, method = RequestMethod.GET)
+    public Medecin getMedecinById(@PathVariable("id") Long id) {
         return medecinService.getMedecin(id);
     }
 
-    //@RequestMapping(method = RequestMethod.POST)
-    @PostMapping()
-    public Medecin createMedecin(@RequestBody Medecin medecin){
-        return  medecinService.saveMedecin(medecin);
+    @RequestMapping(path = {"", "/addmed", "/addprod"}, method = RequestMethod.POST)
+    public Medecin createMedecin(@RequestBody Medecin medecin) {
+        return medecinService.saveMedecin(medecin);
     }
 
-    @PutMapping()
-    public Medecin updateMedecin(@RequestBody Medecin medecin){
+    @RequestMapping(path = {"", "/updatemed", "/updateprod"}, method = RequestMethod.PUT)
+    public Medecin updateMedecin(@RequestBody Medecin medecin) {
         return medecinService.updateMedecin(medecin);
     }
 
-    //@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    @PutMapping("/{id}")
-    public Medecin updateMedecin(@PathVariable Long id, @RequestBody Medecin medecin){
+    @RequestMapping(value = {"/{id}", "/updatemed/{id}", "/updateprod/{id}"}, method = RequestMethod.PUT)
+    public Medecin updateMedecin(@PathVariable("id") Long id, @RequestBody Medecin medecin) {
         medecin.setId(id);
         return medecinService.updateMedecin(medecin);
     }
 
-    //@RequestMapping(value ="/{id}",method = RequestMethod.DELETE)
-    @DeleteMapping(value ="/{id}")
-    public void deleteMedecin(@PathVariable("id") Long id){
+    @RequestMapping(value = {"/{id}", "/delmed/{id}", "/delprod/{id}"}, method = RequestMethod.DELETE)
+    public void deleteMedecin(@PathVariable("id") Long id) {
         medecinService.deleteMedecinById(id);
     }
 
-    //@RequestMapping(value ="/api/{id}",method = RequestMethod.GET)
-    // Recherche des medecins dont le nom contient un texte donne
-    @GetMapping("/medsByName/{nom}")
+    @RequestMapping(value = "/medsByName/{nom}", method = RequestMethod.GET)
     public List<Medecin> findByNomContains(@PathVariable("nom") String nom) {
         return medecinService.findByNomContains(nom);
     }
 
-    @GetMapping("/MedecinSpec/{id}")
-    public List<Medecin> getMedecinSpecById(@PathVariable("id") Long id)
-    {
+    @RequestMapping(value = "/MedecinSpec/{id}", method = RequestMethod.GET)
+    public List<Medecin> getMedecinSpecById(@PathVariable("id") Long id) {
         return medecinService.findBySpecialiteId(id);
     }
-
-
 }
