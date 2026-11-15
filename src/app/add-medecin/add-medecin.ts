@@ -1,4 +1,4 @@
-﻿import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,10 +27,15 @@ export class AddMedecin implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.medecinService.listeSpecialites().subscribe(specs => {
-      console.log(specs);
-      this.specialites = specs._embedded.specialites;
-      this.cdr.markForCheck();
+    this.medecinService.listeSpecialites().subscribe({
+      next: specs => {
+        console.log(specs);
+        this.specialites = specs._embedded.specialites;
+        this.cdr.markForCheck();
+      },
+      error: err => {
+        console.error('Erreur chargement spécialités', err);
+      }
     });
   }
 
@@ -61,6 +66,7 @@ export class AddMedecin implements OnInit {
       error: err => {
         console.error('Erreur ajout médecin', err);
         this.message = "Erreur lors de l'ajout : " + (err.status === 0 ? "CORS / backend indisponible" : err.message);
+        this.cdr.markForCheck();
       }
     });
   }

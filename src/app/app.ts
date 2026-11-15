@@ -17,14 +17,12 @@ export class App implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let isloggedin: string;
-    let loggedUser: string;
-    isloggedin = localStorage.getItem('isloggedIn')!;
-    loggedUser = localStorage.getItem('loggedUser')!;
-    if (isloggedin != "true" || !loggedUser)
+    this.authService.loadToken();
+    if ((this.authService.getToken() == null ||
+        this.authService.isTokenExpired()) &&
+        !window.location.pathname.startsWith('/register') &&
+        !window.location.pathname.startsWith('/verifEmail'))
       this.router.navigate(['/login']);
-    else
-      this.authService.setLoggedUserFromLocalStorage(loggedUser);
   }
 
   onLogout() {
